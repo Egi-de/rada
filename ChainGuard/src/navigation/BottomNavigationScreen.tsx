@@ -43,15 +43,6 @@ export const BottomNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Wallet"
-        component={WalletScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="wallet-outline" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="History"
         component={HistoryScreen}
         options={{

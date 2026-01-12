@@ -108,16 +108,55 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           onNotificationPress={() => console.log('Notifications')}
         />
 
-        {/* Promotional Banner */}
-        <TouchableOpacity style={styles.banner}>
-          <View style={styles.bannerContent}>
-            <View style={styles.bannerText}>
-              <Text style={styles.bannerTitle}>Invite Friends & Get Rewards!</Text>
-              <Text style={styles.bannerSubtitle}>Unlock exclusive benefits.</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={20} color={colors.textGray} />
+        {/* Rates Section - Replacing Invite Friends Banner */}
+        <View style={styles.ratesSection}>
+          <View style={styles.ratesHeader}>
+            <Text style={styles.sectionTitle}>Rates</Text>
+            <TouchableOpacity onPress={() => setIsRatesExpanded(!isRatesExpanded)}>
+              <Ionicons 
+                name={isRatesExpanded ? "chevron-up" : "chevron-down"} 
+                size={20} 
+                color={colors.primaryGold} 
+              />
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
+
+          {/* Collapsible Vertical Rates List */}
+          <View>
+            {(isRatesExpanded ? rates : rates.slice(0, 1)).map((rate, index) => (
+              <View key={index} style={styles.rateCard}>
+                <View style={styles.rateLeft}>
+                  <View style={styles.rateIcon}>
+                    <Ionicons name="logo-usd" size={20} color={colors.success} />
+                  </View>
+                  <Text style={styles.ratePair}>{rate.pair}</Text>
+                </View>
+
+                <View style={styles.rateCenter}>
+                  <View style={styles.miniChart}>
+                    {rate.trend === 'up' ? (
+                      <Ionicons name="trending-up" size={24} color={colors.success} />
+                    ) : (
+                      <Ionicons name="trending-down" size={24} color={colors.error} />
+                    )}
+                  </View>
+                </View>
+
+                <View style={styles.rateRight}>
+                  <Text style={styles.rateValue}>{rate.rate.toFixed(2)}</Text>
+                  <Text
+                    style={[
+                      styles.rateChange,
+                      rate.trend === 'up' ? styles.rateChangeUp : styles.rateChangeDown,
+                    ]}
+                  >
+                    {rate.trend === 'up' ? '+' : ''}{rate.change.toFixed(2)}%
+                  </Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        </View>
 
         {/* Quick Send Section with Curly Bracket Shape */}
         <View style={styles.quickSendWrapper}>
@@ -183,56 +222,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               <Text style={styles.contactName}>New</Text>
             </TouchableOpacity>
           </ScrollView>
-
-          {/* Rates Section - Now inside Quick Send */}
-          <View style={styles.ratesContainer}>
-            <View style={styles.ratesHeader}>
-              <Text style={styles.sectionTitle}>Rates</Text>
-              <TouchableOpacity onPress={() => setIsRatesExpanded(!isRatesExpanded)}>
-                <Ionicons 
-                  name={isRatesExpanded ? "chevron-up" : "chevron-down"} 
-                  size={20} 
-                  color={colors.primaryGold} 
-                />
-              </TouchableOpacity>
-            </View>
-
-            {/* Collapsible Vertical Rates List */}
-            <View>
-              {(isRatesExpanded ? rates : rates.slice(0, 1)).map((rate, index) => (
-                <View key={index} style={styles.rateCard}>
-                  <View style={styles.rateLeft}>
-                    <View style={styles.rateIcon}>
-                      <Ionicons name="logo-usd" size={20} color={colors.success} />
-                    </View>
-                    <Text style={styles.ratePair}>{rate.pair}</Text>
-                  </View>
-
-                  <View style={styles.rateCenter}>
-                    <View style={styles.miniChart}>
-                      {rate.trend === 'up' ? (
-                        <Ionicons name="trending-up" size={24} color={colors.success} />
-                      ) : (
-                        <Ionicons name="trending-down" size={24} color={colors.error} />
-                      )}
-                    </View>
-                  </View>
-
-                  <View style={styles.rateRight}>
-                    <Text style={styles.rateValue}>{rate.rate.toFixed(2)}</Text>
-                    <Text
-                      style={[
-                        styles.rateChange,
-                        rate.trend === 'up' ? styles.rateChangeUp : styles.rateChangeDown,
-                      ]}
-                    >
-                      {rate.trend === 'up' ? '+' : ''}{rate.change.toFixed(2)}%
-                    </Text>
-                  </View>
-                </View>
-              ))}
-            </View>
-          </View>
         </View>
       </View>
 
@@ -326,7 +315,7 @@ const styles = StyleSheet.create({
     color: colors.textGray,
   },
   quickSendWrapper: {
-    marginTop: spacing.base,
+    marginTop: spacing.lg,
     position: 'relative',
   },
   curveDecoration: {
@@ -478,7 +467,7 @@ const styles = StyleSheet.create({
   ratesSection: {
     marginTop: spacing.lg,
     marginHorizontal: spacing.base,
-    marginBottom: spacing.xxxl,
+    marginBottom: 0,
   },
   sectionHeader: {
     flexDirection: 'row',
