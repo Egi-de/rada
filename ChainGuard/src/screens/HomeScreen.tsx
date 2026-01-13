@@ -41,13 +41,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD');
   const [balance, setBalance] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
-  const [isRatesExpanded, setIsRatesExpanded] = useState(false);
+  
 
-  const rates: CurrencyRate[] = [
-    { pair: 'USD/NGN', rate: 760.5, change: 13.8, trend: 'up' },
-    { pair: 'GBP/NGN', rate: 955.2, change: 3.93, trend: 'up' },
-    { pair: 'EUR/NGN', rate: 810.3, change: -10.3, trend: 'down' },
-  ];
+ 
 
   const transactions: Transaction[] = [
     { 
@@ -107,58 +103,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           onSend={() => navigation.navigate('Send')}
           onNotificationPress={() => console.log('Notifications')}
         />
-
-        {/* Rates Section - Replacing Invite Friends Banner */}
-        <View style={styles.ratesSection}>
-          <View style={styles.ratesHeader}>
-            <Text style={styles.sectionTitle}>Rates</Text>
-            <TouchableOpacity onPress={() => setIsRatesExpanded(!isRatesExpanded)}>
-              <Ionicons 
-                name={isRatesExpanded ? "chevron-up" : "chevron-down"} 
-                size={20} 
-                color={colors.primaryGold} 
-              />
-            </TouchableOpacity>
-          </View>
-
-          {/* Collapsible Vertical Rates List */}
-          <View>
-            {(isRatesExpanded ? rates : rates.slice(0, 1)).map((rate, index) => (
-              <View key={index} style={styles.rateCard}>
-                <View style={styles.rateLeft}>
-                  <View style={styles.rateIcon}>
-                    <Ionicons name="logo-usd" size={20} color={colors.success} />
-                  </View>
-                  <Text style={styles.ratePair}>{rate.pair}</Text>
-                </View>
-
-                <View style={styles.rateCenter}>
-                  <View style={styles.miniChart}>
-                    {rate.trend === 'up' ? (
-                      <Ionicons name="trending-up" size={24} color={colors.success} />
-                    ) : (
-                      <Ionicons name="trending-down" size={24} color={colors.error} />
-                    )}
-                  </View>
-                </View>
-
-                <View style={styles.rateRight}>
-                  <Text style={styles.rateValue}>{rate.rate.toFixed(2)}</Text>
-                  <Text
-                    style={[
-                      styles.rateChange,
-                      rate.trend === 'up' ? styles.rateChangeUp : styles.rateChangeDown,
-                    ]}
-                  >
-                    {rate.trend === 'up' ? '+' : ''}{rate.change.toFixed(2)}%
-                  </Text>
-                </View>
-              </View>
-            ))}
-          </View>
-        </View>
-
-
       {/* Recent Transactions Section */}
         <View style={styles.transactionsSection}>
           <View style={styles.sectionHeader}>
@@ -238,170 +182,38 @@ const styles = StyleSheet.create({
   bannerText: {
     flex: 1,
   },
-  bannerTitle: {
-    fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.semibold,
+  headerTitle: {
+    fontSize: typography.fontSize.xl,
+    fontFamily: typography.fonts.bold,
     color: colors.textDark,
-    marginBottom: spacing.xs,
   },
-  bannerSubtitle: {
-    fontSize: typography.fontSize.sm,
-    color: colors.textGray,
-  },
-  quickSendWrapper: {
-    marginTop: spacing.lg,
-    position: 'relative',
-  },
-  curveDecoration: {
-    position: 'absolute',
-    top: 0,
-    width: 60,
-    height: 30,
-    backgroundColor: colors.white,
-    zIndex: 2,
-  },
-  curveLeft: {
-    left: 0,
-    borderTopRightRadius: 30,
-  },
-  curveRight: {
-    right: 0,
-    borderTopLeftRadius: 30,
-  },
-  centerNotch: {
-    position: 'absolute',
-    top: 0,
-    left: '50%',
-    marginLeft: -30,
-    width: 60,
-    height: 20,
-    backgroundColor: colors.lightGray,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
-    zIndex: 2,
-  },
-  quickSendSection: {
-    backgroundColor: colors.white,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingTop: spacing.xl,
-    paddingBottom: spacing.xl,
-    paddingHorizontal: spacing.lg,
-    ...shadows.card,
-  },
-  quickSendHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.md,
+  placeholder: {
+    width: 40,
   },
   sectionTitle: {
     fontSize: typography.fontSize.lg,
-    fontWeight: typography.fontWeight.semibold,
+    fontFamily: typography.fonts.semibold,
     color: colors.textDark,
   },
   seeAllText: {
     fontSize: typography.fontSize.sm,
     color: colors.primaryGold,
-    fontWeight: typography.fontWeight.medium,
-  },
-  quickSendList: {
-    gap: spacing.base,
-    paddingRight: spacing.base,
-  },
-  contactItem: {
-    alignItems: 'center',
-    marginRight: spacing.sm,
-  },
-  contactAvatar: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: colors.primaryGold,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: spacing.sm,
-  },
-  addContactAvatar: {
-    backgroundColor: colors.lightGray,
-    borderWidth: 2,
-    borderColor: colors.primaryGold,
-    borderStyle: 'dashed',
-  },
-  contactName: {
-    fontSize: typography.fontSize.sm,
-    color: colors.textDark,
-    fontWeight: typography.fontWeight.medium,
-  },
-  ratesContainer: {
-    marginTop: spacing.lg,
-  },
-  ratesHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.md,
-  },
-  rateCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    padding: spacing.base,
-    borderRadius: borderRadius.lg, // Updated to match other cards
-    marginBottom: spacing.sm,
-
-  },
-  rateLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  rateIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: colors.success + '20',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: spacing.md,
+    fontFamily: typography.fonts.medium,
   },
   ratePair: {
     fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.medium,
+    fontFamily: typography.fonts.medium,
     color: colors.textDark,
-  },
-  rateCenter: {
-    marginHorizontal: spacing.base,
-  },
-  miniChart: {
-    width: 60,
-    height: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  rateRight: {
-    alignItems: 'flex-end',
   },
   rateValue: {
     fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.semibold,
+    fontFamily: typography.fonts.semibold,
     color: colors.textDark,
     marginBottom: spacing.xs,
   },
   rateChange: {
     fontSize: typography.fontSize.sm,
-    fontWeight: typography.fontWeight.medium,
-  },
-  rateChangeUp: {
-    color: colors.success,
-  },
-  rateChangeDown: {
-    color: colors.error,
-  },
-  ratesSection: {
-    marginTop: spacing.lg,
-    marginHorizontal: spacing.base,
-    marginBottom: 0,
+    fontFamily: typography.fonts.medium,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -412,8 +224,6 @@ const styles = StyleSheet.create({
   transactionsSection: {
     marginTop: spacing.lg,
     marginHorizontal: spacing.base,
-    // Add extra bottom padding for scrolling past bottom nav if needed, 
-    // though safe area usually handles it. 
     marginBottom: spacing.huge, 
   },
   transactionCard: {
@@ -433,7 +243,7 @@ const styles = StyleSheet.create({
     marginRight: spacing.md,
   },
   iconReceived: {
-    backgroundColor: colors.success + '15', // 15% opacity
+    backgroundColor: colors.success + '15',
   },
   iconSent: {
     backgroundColor: colors.error + '15',
@@ -444,22 +254,23 @@ const styles = StyleSheet.create({
   transactionInfo: {
     flex: 1,
   },
-  transactionName: {
-    fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.semibold,
-    color: colors.textDark,
-    marginBottom: 2,
-  },
   transactionDate: {
     fontSize: typography.fontSize.xs,
     color: colors.textGray,
+    fontFamily: typography.fonts.regular,
   },
   transactionAmountContainer: {
     alignItems: 'flex-end',
   },
+  transactionName: {
+    fontSize: typography.fontSize.base,
+    fontFamily: typography.fonts.semibold,
+    color: colors.textDark,
+    marginBottom: 2,
+  },
   transactionAmount: {
     fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fonts.bold,
     marginBottom: 2,
   },
   amountReceived: {

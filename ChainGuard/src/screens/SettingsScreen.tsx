@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   },
   profileName: {
     fontSize: typography.fontSize.lg,
-    fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fonts.bold,
     color: colors.textDark,
     marginBottom: 4,
   },
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: typography.fontSize.sm,
-    fontWeight: typography.fontWeight.semibold,
+    fontFamily: typography.fonts.semibold,
     color: colors.textGray,
     marginHorizontal: spacing.base,
     marginBottom: spacing.sm,

@@ -194,19 +194,19 @@ const styles = StyleSheet.create({
   },
   currencyText: {
     fontSize: typography.fontSize.xl,
-    fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fonts.bold,
     color: colors.textDark,
   },
   amountInput: {
     fontSize: typography.fontSize.xxl,
-    fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fonts.bold,
     color: colors.textDark,
     textAlign: 'right',
     flex: 1,
   },
   convertedAmount: {
     fontSize: typography.fontSize.xxl,
-    fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fonts.bold,
     color: colors.textDark,
   },
   swapButtonContainer: {

@@ -41,7 +41,7 @@ export const BottomNavigation = () => {
         component={BuyScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="card-outline" size={size} color={color} />
+            <Ionicons name="cart-outline" size={size} color={color} />
           ),
         }}
       />

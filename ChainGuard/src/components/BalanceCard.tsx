@@ -128,10 +128,10 @@ const styles = StyleSheet.create({
   currencyText: {
     color: colors.white,
     fontSize: typography.fontSize.sm,
-    fontWeight: typography.fontWeight.medium,
+    fontFamily: typography.fonts.medium,
   },
   currencyTextActive: {
-    fontWeight: typography.fontWeight.semibold,
+    fontFamily: typography.fonts.semibold,
   },
   notificationButton: {
     width: 40,
@@ -150,11 +150,12 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize.sm,
     marginBottom: spacing.md,
     opacity: 0.8,
+    fontFamily: typography.fonts.regular,
   },
   balanceAmount: {
     color: colors.white,
     fontSize: typography.fontSize.huge,
-    fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fonts.bold,
   },
   actions: {
     flexDirection: 'row',

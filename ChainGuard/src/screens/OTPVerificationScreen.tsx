@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: typography.fontSize.xxxl,
-    fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fonts.bold,
     color: colors.textDark,
     marginBottom: spacing.sm,
   },
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   },
   email: {
     color: colors.textDark,
-    fontWeight: typography.fontWeight.medium,
+    fontFamily: typography.fonts.medium,
   },
   otpSection: {
     marginBottom: spacing.xl,

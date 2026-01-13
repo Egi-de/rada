@@ -4,6 +4,14 @@ import { TextStyle } from 'react-native';
 type FontWeight = TextStyle['fontWeight'];
 
 export const typography = {
+  // Font Families
+  fonts: {
+    regular: 'Outfit_400Regular',
+    medium: 'Outfit_500Medium',
+    semibold: 'Outfit_600SemiBold',
+    bold: 'Outfit_700Bold',
+  },
+
   // Font Sizes
   fontSize: {
     xs: 12,

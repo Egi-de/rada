@@ -17,36 +17,22 @@ interface SendScreenProps {
   navigation: any;
 }
 
-interface Contact {
-  id: string;
-  name: string;
-  phone: string;
-}
-
 export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
-  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+  const [accountNumber, setAccountNumber] = useState('');
   const [amount, setAmount] = useState('');
-  const [note, setNote] = useState('');
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD');
-
-  const contacts: Contact[] = [
-    { id: '1', name: 'Aubrey', phone: '+234 801 234 5678' },
-    { id: '2', name: 'Victoria', phone: '+234 802 345 6789' },
-    { id: '3', name: 'Debra', phone: '+234 803 456 7890' },
-    { id: '4', name: 'Colleen', phone: '+234 804 567 8901' },
-  ];
 
   const transactionFee = 0.5; // Fixed fee in USD
 
   const handleConfirmSend = () => {
     // Handle send confirmation
-    console.log('Send confirmed:', { selectedContact, amount, currency, note });
+    console.log('Send confirmed:', { accountNumber, amount, currency });
     navigation.goBack();
   };
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
@@ -56,50 +42,21 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
           <View style={styles.placeholder} />
         </View>
 
-        {/* Recipient Section */}
+        {/* Account Number Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Send To</Text>
-          <ScrollView 
-            horizontal 
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.contactsList}
-          >
-            {contacts.map((contact) => (
-              <TouchableOpacity
-                key={contact.id}
-                style={[
-                  styles.contactCard,
-                  selectedContact?.id === contact.id && styles.contactCardSelected,
-                ]}
-                onPress={() => setSelectedContact(contact)}
-              >
-                <View style={[
-                  styles.contactAvatar,
-                  selectedContact?.id === contact.id && styles.contactAvatarSelected,
-                ]}>
-                  <Ionicons 
-                    name="person" 
-                    size={24} 
-                    color={selectedContact?.id === contact.id ? colors.white : colors.primaryGold} 
-                  />
-                </View>
-                <Text style={styles.contactName}>{contact.name}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-
-          {selectedContact && (
-            <View style={styles.selectedContactInfo}>
-              <Ionicons name="checkmark-circle" size={20} color={colors.success} />
-              <Text style={styles.selectedContactText}>
-                {selectedContact.name} - {selectedContact.phone}
-              </Text>
-            </View>
-          )}
+          <Text style={styles.label}>Account Number</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter account number"
+            placeholderTextColor={colors.textGray}
+            keyboardType="numeric"
+            value={accountNumber}
+            onChangeText={setAccountNumber}
+          />
         </View>
 
         {/* Amount Section */}
-        <View style={styles.card}>
+        <View style={styles.section}>
           <Text style={styles.label}>Amount</Text>
           <View style={styles.amountRow}>
             <TouchableOpacity 
@@ -120,24 +77,14 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
           </View>
         </View>
 
-        {/* Note Section */}
-        <View style={styles.card}>
-          <Text style={styles.label}>Note (Optional)</Text>
-          <TextInput
-            style={styles.noteInput}
-            placeholder="Add a message..."
-            placeholderTextColor={colors.textGray}
-            multiline
-            numberOfLines={3}
-            value={note}
-            onChangeText={setNote}
-          />
-        </View>
-
         {/* Transaction Summary */}
-        {amount && selectedContact && (
-          <View style={styles.summaryCard}>
+        {amount && accountNumber.length > 0 && (
+          <View style={styles.summaryContainer}>
             <Text style={styles.summaryTitle}>Transaction Summary</Text>
+            <View style={styles.summaryRow}>
+              <Text style={styles.summaryLabel}>Account</Text>
+              <Text style={styles.summaryValue}>{accountNumber}</Text>
+            </View>
             <View style={styles.summaryRow}>
               <Text style={styles.summaryLabel}>Amount</Text>
               <Text style={styles.summaryValue}>{currency} {amount}</Text>
@@ -159,10 +106,10 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
         <TouchableOpacity 
           style={[
             styles.confirmButton, 
-            (!amount || !selectedContact) && styles.confirmButtonDisabled
+            (!amount || !accountNumber) && styles.confirmButtonDisabled
           ]}
           onPress={handleConfirmSend}
-          disabled={!amount || !selectedContact}
+          disabled={!amount || !accountNumber}
         >
           <Text style={styles.confirmButtonText}>Send Money</Text>
         </TouchableOpacity>
@@ -174,7 +121,10 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.lightGray,
+    backgroundColor: colors.white,
+  },
+  content: {
+    paddingBottom: spacing.xl,
   },
   header: {
     flexDirection: 'row',
@@ -182,15 +132,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: spacing.base,
     paddingVertical: spacing.md,
+    marginBottom: spacing.md,
   },
   backButton: {
     width: 40,
     height: 40,
-    borderRadius: 20,
-    backgroundColor: colors.white,
     justifyContent: 'center',
     alignItems: 'center',
-    ...shadows.card,
   },
   headerTitle: {
     fontSize: typography.fontSize.xl,
@@ -201,115 +149,64 @@ const styles = StyleSheet.create({
     width: 40,
   },
   section: {
-    marginTop: spacing.base,
-  },
-  sectionTitle: {
-    fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.semibold,
-    color: colors.textDark,
-    marginHorizontal: spacing.base,
-    marginBottom: spacing.md,
-  },
-  contactsList: {
-    paddingHorizontal: spacing.base,
-    gap: spacing.sm,
-  },
-  contactCard: {
-    alignItems: 'center',
-    marginRight: spacing.sm,
-  },
-  contactCardSelected: {
-    // Additional styling for selected state
-  },
-  contactAvatar: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: colors.primaryGold + '20',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: spacing.sm,
-  },
-  contactAvatarSelected: {
-    backgroundColor: colors.primaryGold,
-  },
-  contactName: {
-    fontSize: typography.fontSize.sm,
-    color: colors.textDark,
-    fontWeight: typography.fontWeight.medium,
-  },
-  selectedContactInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.success + '15',
-    marginHorizontal: spacing.base,
-    marginTop: spacing.md,
-    padding: spacing.sm,
-    borderRadius: borderRadius.md,
-    gap: spacing.sm,
-  },
-  selectedContactText: {
-    fontSize: typography.fontSize.sm,
-    color: colors.textDark,
-    flex: 1,
-  },
-  card: {
-    backgroundColor: colors.white,
-    marginHorizontal: spacing.base,
-    marginTop: spacing.base,
-    padding: spacing.lg,
-    borderRadius: borderRadius.lg,
-    ...shadows.card,
+    paddingHorizontal: spacing.lg,
+    marginBottom: spacing.xl,
   },
   label: {
     fontSize: typography.fontSize.sm,
     color: colors.textGray,
-    marginBottom: spacing.sm,
+    marginBottom: spacing.xs,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  input: {
+    fontSize: typography.fontSize.xl,
+    color: colors.textDark,
+    fontWeight: typography.fontWeight.medium,
+    paddingVertical: spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderGray,
   },
   amountRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderGray,
+    paddingVertical: spacing.sm,
   },
   currencySelector: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.lightGray,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: borderRadius.md,
     gap: spacing.xs,
+    paddingRight: spacing.sm,
+    borderRightWidth: 1,
+    borderRightColor: colors.borderGray,
   },
   currencyText: {
-    fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.semibold,
+    fontSize: typography.fontSize.lg,
+    fontFamily: typography.fonts.bold,
     color: colors.textDark,
   },
   amountInput: {
     fontSize: typography.fontSize.xxl,
-    fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fonts.bold,
     color: colors.textDark,
     flex: 1,
   },
-  noteInput: {
-    fontSize: typography.fontSize.base,
-    color: colors.textDark,
-    minHeight: 60,
-    textAlignVertical: 'top',
-  },
-  summaryCard: {
-    backgroundColor: colors.white,
-    marginHorizontal: spacing.base,
-    marginTop: spacing.lg,
-    padding: spacing.lg,
-    borderRadius: borderRadius.lg,
-    ...shadows.card,
+  summaryContainer: {
+    marginTop: spacing.xl,
+    marginHorizontal: spacing.lg,
+    padding: spacing.md,
+    backgroundColor: colors.lightGray,
+    borderRadius: borderRadius.md,
   },
   summaryTitle: {
-    fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.semibold,
+    fontSize: typography.fontSize.sm,
+    fontFamily: typography.fonts.semibold,
     color: colors.textDark,
     marginBottom: spacing.md,
+    textTransform: 'uppercase',
   },
   summaryRow: {
     flexDirection: 'row',
@@ -322,7 +219,7 @@ const styles = StyleSheet.create({
   },
   summaryValue: {
     fontSize: typography.fontSize.sm,
-    fontWeight: typography.fontWeight.medium,
+    fontFamily: typography.fonts.medium,
     color: colors.textDark,
   },
   summaryTotal: {
@@ -333,7 +230,7 @@ const styles = StyleSheet.create({
   },
   summaryTotalLabel: {
     fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.semibold,
+    fontWeight: typography.fontWeight.bold,
     color: colors.textDark,
   },
   summaryTotalValue: {
@@ -343,20 +240,20 @@ const styles = StyleSheet.create({
   },
   confirmButton: {
     backgroundColor: colors.primaryGold,
-    marginHorizontal: spacing.base,
-    marginTop: spacing.xl,
-    marginBottom: spacing.lg,
-    padding: spacing.base,
+    marginHorizontal: spacing.lg,
+    marginTop: spacing.xxxl,
+    padding: spacing.md,
     borderRadius: borderRadius.lg,
     alignItems: 'center',
     ...shadows.button,
   },
   confirmButtonDisabled: {
-    backgroundColor: colors.textGray,
-    opacity: 0.5,
+    backgroundColor: colors.borderGray,
+    shadowOpacity: 0,
+    elevation: 0,
   },
   confirmButtonText: {
-    fontSize: typography.fontSize.base,
+    fontSize: typography.fontSize.lg,
     fontWeight: typography.fontWeight.bold,
     color: colors.white,
   },

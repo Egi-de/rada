@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: typography.fontSize.sm,
-    fontWeight: typography.fontWeight.medium,
+    fontFamily: typography.fonts.medium,
     color: colors.textDark,
     marginBottom: spacing.sm,
   },
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: typography.fontSize.base,
     color: colors.textDark,
-    fontWeight: typography.fontWeight.regular,
+    fontFamily: typography.fonts.regular,
   },
   eyeIcon: {
     padding: spacing.sm,

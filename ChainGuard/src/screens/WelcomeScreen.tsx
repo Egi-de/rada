@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   appName: {
     fontSize: typography.fontSize.huge,
-    fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fonts.bold,
     color: colors.primaryGold,
     marginBottom: spacing.sm,
   },

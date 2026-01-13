@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
   },
   paymentLabel: {
     fontSize: typography.fontSize.sm,
-    fontWeight: typography.fontWeight.medium,
+    fontFamily: typography.fonts.medium,
     color: colors.textDark,
     marginTop: spacing.sm,
   },
@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
   },
   summaryTitle: {
     fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.semibold,
+    fontFamily: typography.fonts.semibold,
     color: colors.textDark,
     marginBottom: spacing.md,
   },
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
   },
   summaryValue: {
     fontSize: typography.fontSize.sm,
-    fontWeight: typography.fontWeight.medium,
+    fontFamily: typography.fonts.medium,
     color: colors.textDark,
   },
   summaryTotal: {
@@ -367,12 +367,12 @@ const styles = StyleSheet.create({
   },
   summaryTotalLabel: {
     fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.semibold,
+    fontFamily: typography.fonts.semibold,
     color: colors.textDark,
   },
   summaryTotalValue: {
     fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fonts.bold,
     color: colors.primaryGold,
   },
   buyButton: {

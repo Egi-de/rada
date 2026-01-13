@@ -67,6 +67,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         <ScrollView
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
         >
           {/* Header */}
           <View style={styles.header}>
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: typography.fontSize.xxxl,
-    fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fonts.bold,
     color: colors.textDark,
     marginBottom: spacing.sm,
   },
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
   forgotPasswordText: {
     fontSize: typography.fontSize.sm,
     color: colors.primaryGold,
-    fontWeight: typography.fontWeight.medium,
+    fontFamily: typography.fonts.medium,
   },
   loginButton: {
     marginTop: spacing.base,

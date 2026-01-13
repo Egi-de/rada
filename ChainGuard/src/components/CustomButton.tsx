@@ -144,7 +144,8 @@ const styles = StyleSheet.create({
   text: {
     color: colors.white,
     fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.semibold,
+    fontFamily: typography.fonts.bold, // Use Outfit Bold
+    textAlign: 'center',
   },
   secondaryText: {
     color: colors.primaryGold,

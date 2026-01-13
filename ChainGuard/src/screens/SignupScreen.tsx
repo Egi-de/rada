@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: typography.fontSize.xxxl,
-    fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fonts.bold,
     color: colors.textDark,
     marginBottom: spacing.sm,
   },

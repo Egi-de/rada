@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
   },
   transactionName: {
     fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.semibold,
+    fontFamily: typography.fonts.semibold,
     color: colors.textDark,
     marginBottom: 4,
   },
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
   },
   transactionAmount: {
     fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fonts.bold,
     marginBottom: 4,
   },
   amountReceived: {
