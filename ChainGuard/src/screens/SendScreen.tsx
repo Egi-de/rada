@@ -45,27 +45,25 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
         {/* Account Number Section */}
         <View style={styles.section}>
           <Text style={styles.label}>Account Number</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter account number"
-            placeholderTextColor={colors.textGray}
-            keyboardType="numeric"
-            value={accountNumber}
-            onChangeText={setAccountNumber}
-          />
+          <View style={styles.inputContainer}>
+            <View style={styles.inputIcon}>
+              <Ionicons name="wallet-outline" size={20} color={colors.primaryGold} />
+            </View>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter account number"
+              placeholderTextColor={colors.textGray}
+              keyboardType="numeric"
+              value={accountNumber}
+              onChangeText={setAccountNumber}
+            />
+          </View>
         </View>
 
         {/* Amount Section */}
         <View style={styles.section}>
           <Text style={styles.label}>Amount</Text>
-          <View style={styles.amountRow}>
-            <TouchableOpacity 
-              style={styles.currencySelector}
-              onPress={() => setCurrency(currency === 'USD' ? 'NGN' : 'USD')}
-            >
-              <Text style={styles.currencyText}>{currency}</Text>
-              <Ionicons name="chevron-down" size={20} color={colors.textGray} />
-            </TouchableOpacity>
+          <View style={styles.amountContainer}>
             <TextInput
               style={styles.amountInput}
               placeholder="0.00"
@@ -74,29 +72,31 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
               value={amount}
               onChangeText={setAmount}
             />
+            <TouchableOpacity 
+              style={styles.currencySelector}
+              onPress={() => setCurrency(currency === 'USD' ? 'NGN' : 'USD')}
+            >
+              <Text style={styles.currencyText}>{currency}</Text>
+              <Ionicons name="chevron-down" size={20} color={colors.textDark} />
+            </TouchableOpacity>
           </View>
         </View>
 
         {/* Transaction Summary */}
         {amount && accountNumber.length > 0 && (
           <View style={styles.summaryContainer}>
-            <Text style={styles.summaryTitle}>Transaction Summary</Text>
-            <View style={styles.summaryRow}>
-              <Text style={styles.summaryLabel}>Account</Text>
-              <Text style={styles.summaryValue}>{accountNumber}</Text>
+            <Text style={styles.summaryTitle}>You will spend</Text>
+            
+            <View style={styles.totalContainer}>
+              <Text style={styles.currencyLabel}>{currency}</Text>
+              <Text style={styles.totalAmount}>
+                {(parseFloat(amount) + transactionFee).toFixed(2)}
+              </Text>
             </View>
-            <View style={styles.summaryRow}>
-              <Text style={styles.summaryLabel}>Amount</Text>
-              <Text style={styles.summaryValue}>{currency} {amount}</Text>
-            </View>
-            <View style={styles.summaryRow}>
-              <Text style={styles.summaryLabel}>Transaction Fee</Text>
-              <Text style={styles.summaryValue}>{currency} {transactionFee.toFixed(2)}</Text>
-            </View>
-            <View style={[styles.summaryRow, styles.summaryTotal]}>
-              <Text style={styles.summaryTotalLabel}>Total</Text>
-              <Text style={styles.summaryTotalValue}>
-                {currency} {(parseFloat(amount) + transactionFee).toFixed(2)}
+
+            <View style={styles.feeInfoContainer}>
+              <Text style={styles.feeInfoText}>
+                Includes {currency} {transactionFee.toFixed(2)} fee
               </Text>
             </View>
           </View>
@@ -159,84 +159,96 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
-  input: {
-    fontSize: typography.fontSize.xl,
-    color: colors.textDark,
-    fontWeight: typography.fontWeight.medium,
-    paddingVertical: spacing.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderGray,
-  },
-  amountRow: {
+  inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.md,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderGray,
-    paddingVertical: spacing.sm,
+    backgroundColor: colors.white,
+    borderRadius: borderRadius.xl,
+    paddingHorizontal: spacing.md,
+    height: 56,
+    borderWidth: 1,
+    borderColor: colors.borderGray,
+  },
+  inputIcon: {
+    marginRight: spacing.sm,
+  },
+  input: {
+    flex: 1,
+    fontSize: typography.fontSize.base,
+    color: colors.textDark,
+    fontFamily: typography.fonts.medium,
+  },
+  amountContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.white,
+    borderRadius: borderRadius.xl,
+    paddingHorizontal: spacing.md,
+    height: 56,
+    borderWidth: 1,
+    borderColor: colors.borderGray,
+  },
+  amountInput: {
+    flex: 1,
+    fontSize: typography.fontSize.lg,
+    fontFamily: typography.fonts.bold,
+    color: colors.textDark,
   },
   currencySelector: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.xs,
-    paddingRight: spacing.sm,
-    borderRightWidth: 1,
-    borderRightColor: colors.borderGray,
+    paddingLeft: spacing.sm,
+    borderLeftWidth: 1,
+    borderLeftColor: colors.borderGray,
+    height: '60%',
   },
   currencyText: {
-    fontSize: typography.fontSize.lg,
+    fontSize: typography.fontSize.base,
     fontFamily: typography.fonts.bold,
     color: colors.textDark,
-  },
-  amountInput: {
-    fontSize: typography.fontSize.xxl,
-    fontFamily: typography.fonts.bold,
-    color: colors.textDark,
-    flex: 1,
   },
   summaryContainer: {
     marginTop: spacing.xl,
     marginHorizontal: spacing.lg,
-    padding: spacing.md,
-    backgroundColor: colors.lightGray,
-    borderRadius: borderRadius.md,
+    padding: spacing.xl,
+    backgroundColor: colors.white,
+    borderRadius: borderRadius.xl,
+    alignItems: 'center',
+    ...shadows.card,
   },
   summaryTitle: {
-    fontSize: typography.fontSize.sm,
+    fontSize: typography.fontSize.base,
     fontFamily: typography.fonts.semibold,
     color: colors.textDark,
-    marginBottom: spacing.md,
-    textTransform: 'uppercase',
-  },
-  summaryRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     marginBottom: spacing.sm,
   },
-  summaryLabel: {
-    fontSize: typography.fontSize.sm,
-    color: colors.textGray,
+  totalContainer: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: spacing.xs,
+    marginBottom: spacing.sm,
   },
-  summaryValue: {
+  currencyLabel: {
+    fontSize: typography.fontSize.xl,
+    fontFamily: typography.fonts.bold,
+    color: colors.primaryGold,
+  },
+  totalAmount: {
+    fontSize: typography.fontSize.xxxl,
+    fontFamily: typography.fonts.bold,
+    color: colors.textDark,
+  },
+  feeInfoContainer: {
+    backgroundColor: colors.lightGray,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
+    borderRadius: borderRadius.lg,
+  },
+  feeInfoText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fonts.medium,
-    color: colors.textDark,
-  },
-  summaryTotal: {
-    borderTopWidth: 1,
-    borderTopColor: colors.borderGray,
-    paddingTop: spacing.sm,
-    marginTop: spacing.sm,
-  },
-  summaryTotalLabel: {
-    fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.bold,
-    color: colors.textDark,
-  },
-  summaryTotalValue: {
-    fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.bold,
-    color: colors.primaryGold,
+    color: colors.textGray,
   },
   confirmButton: {
     backgroundColor: colors.primaryGold,

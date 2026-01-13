@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -24,6 +25,7 @@ interface Transaction {
 
 export const HistoryScreen: React.FC = () => {
   const [filter, setFilter] = useState<'all' | 'received' | 'sent' | 'swap'>('all');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const transactions: Transaction[] = [
     { 
@@ -82,9 +84,9 @@ export const HistoryScreen: React.FC = () => {
     },
   ];
 
-  const filteredTransactions = filter === 'all' 
-    ? transactions 
-    : transactions.filter(tx => tx.type === filter);
+  const filteredTransactions = transactions
+    .filter(tx => filter === 'all' || tx.type === filter)
+    .filter(tx => tx.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
   const filters = [
     { key: 'all', label: 'All' },
@@ -98,6 +100,25 @@ export const HistoryScreen: React.FC = () => {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Transaction History</Text>
+      </View>
+
+      {/* Search Bar */}
+      <View style={styles.searchContainer}>
+        <View style={styles.searchBar}>
+          <Ionicons name="search" size={20} color={colors.textGray} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search transactions..."
+            placeholderTextColor={colors.textGray}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+          />
+          {searchQuery.length > 0 && (
+            <TouchableOpacity onPress={() => setSearchQuery('')}>
+              <Ionicons name="close-circle" size={20} color={colors.textGray} />
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
 
       {/* Filter Tabs */}
@@ -178,7 +199,9 @@ export const HistoryScreen: React.FC = () => {
         {filteredTransactions.length === 0 && (
           <View style={styles.emptyState}>
             <Ionicons name="receipt-outline" size={64} color={colors.textGray} />
-            <Text style={styles.emptyText}>No transactions found</Text>
+            <Text style={styles.emptyText}>
+              {searchQuery ? 'No transactions match your search' : 'No transactions found'}
+            </Text>
           </View>
         )}
       </ScrollView>
@@ -198,6 +221,26 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: typography.fontSize.xxl,
     fontWeight: typography.fontWeight.bold,
+    color: colors.textDark,
+  },
+  searchContainer: {
+    paddingHorizontal: spacing.base,
+    paddingBottom: spacing.md,
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.white,
+    borderRadius: borderRadius.lg,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    gap: spacing.sm,
+    ...shadows.card,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: typography.fontSize.base,
+    fontFamily: typography.fonts.regular,
     color: colors.textDark,
   },
   filterContainer: {
