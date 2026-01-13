@@ -103,8 +103,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           balance={balance}
           currency={currency}
           onCurrencyToggle={handleCurrencyToggle}
-          onSwap={() => console.log('Swap')}
-          onSend={() => console.log('Send')}
+          onSwap={() => navigation.navigate('Swap')}
+          onSend={() => navigation.navigate('Send')}
           onNotificationPress={() => console.log('Notifications')}
         />
 
@@ -158,72 +158,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           </View>
         </View>
 
-        {/* Quick Send Section with Curly Bracket Shape */}
-        <View style={styles.quickSendWrapper}>
-          {/* Left Curve */}
-          <View style={[styles.curveDecoration, styles.curveLeft]} />
-          
-          {/* Center Notch */}
-          <View style={styles.centerNotch} />
-          
-          {/* Right Curve */}
-          <View style={[styles.curveDecoration, styles.curveRight]} />
-          
-          <View style={styles.quickSendSection}>
-            <View style={styles.quickSendHeader}>
-            <Text style={styles.sectionTitle}>Quick Send</Text>
-            <TouchableOpacity>
-              <Text style={styles.seeAllText}>See All</Text>
-            </TouchableOpacity>
-          </View>
-
-          <ScrollView 
-            horizontal 
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.quickSendList}
-          >
-            {/* Contact 1 */}
-            <TouchableOpacity style={styles.contactItem}>
-              <View style={styles.contactAvatar}>
-                <Ionicons name="person" size={28} color={colors.white} />
-              </View>
-              <Text style={styles.contactName}>Aubrey</Text>
-            </TouchableOpacity>
-
-            {/* Contact 2 */}
-            <TouchableOpacity style={styles.contactItem}>
-              <View style={styles.contactAvatar}>
-                <Ionicons name="person" size={28} color={colors.white} />
-              </View>
-              <Text style={styles.contactName}>Victoria</Text>
-            </TouchableOpacity>
-
-            {/* Contact 3 */}
-            <TouchableOpacity style={styles.contactItem}>
-              <View style={styles.contactAvatar}>
-                <Ionicons name="person" size={28} color={colors.white} />
-              </View>
-              <Text style={styles.contactName}>Debra</Text>
-            </TouchableOpacity>
-
-            {/* Contact 4 */}
-            <TouchableOpacity style={styles.contactItem}>
-              <View style={styles.contactAvatar}>
-                <Ionicons name="person" size={28} color={colors.white} />
-              </View>
-              <Text style={styles.contactName}>Colleen</Text>
-            </TouchableOpacity>
-
-            {/* Add New Contact */}
-            <TouchableOpacity style={styles.contactItem}>
-              <View style={[styles.contactAvatar, styles.addContactAvatar]}>
-                <Ionicons name="add" size={28} color={colors.primaryGold} />
-              </View>
-              <Text style={styles.contactName}>New</Text>
-            </TouchableOpacity>
-          </ScrollView>
-        </View>
-      </View>
 
       {/* Recent Transactions Section */}
         <View style={styles.transactionsSection}>
@@ -415,7 +349,7 @@ const styles = StyleSheet.create({
     padding: spacing.base,
     borderRadius: borderRadius.lg, // Updated to match other cards
     marginBottom: spacing.sm,
-    ...shadows.card,
+
   },
   rateLeft: {
     flexDirection: 'row',

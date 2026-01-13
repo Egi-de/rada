@@ -10,6 +10,7 @@ export const colors = {
   darkGreen: '#1B4332',
   white: '#FFFFFF',
   lightGray: '#F5F5F5',
+  cardButton: '#243656',
   
   // Border & Divider Colors
   borderGray: '#E0E0E0',
@@ -35,5 +36,5 @@ export const gradients = {
   primary: [colors.primaryGold, colors.darkGold] as const,
   background: [colors.charcoal, colors.deepNavy] as const,
   darkGreen: ['#1B4332', '#0D2818'] as const,
-  card: ['rgba(27, 67, 50, 0.9)', 'rgba(13, 40, 24, 0.9)'] as const,
+  card: ['#344F80', '#2A3F66'] as const,
 };

@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: spacing.lg,
-    backgroundColor: colors.darkGreen,
+    backgroundColor: colors.cardButton,
   },
   text: {
     color: colors.white,

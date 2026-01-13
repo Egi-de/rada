@@ -51,38 +51,13 @@ export const BalanceCard: React.FC<BalanceCardProps> = ({
           )}
         </TouchableOpacity>
 
-        <View style={styles.currencyToggle}>
-          <TouchableOpacity
-            style={[styles.currencyButton, currency === 'USD' && styles.currencyButtonActive]}
-            onPress={onCurrencyToggle}
-          >
-            <Text style={[styles.currencyText, currency === 'USD' && styles.currencyTextActive]}>
-              USD
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.currencyButton, currency === 'NGN' && styles.currencyButtonActive]}
-            onPress={onCurrencyToggle}
-          >
-            <Text style={[styles.currencyText, currency === 'NGN' && styles.currencyTextActive]}>
-              NGN
-            </Text>
-          </TouchableOpacity>
-        </View>
 
         <TouchableOpacity onPress={onNotificationPress} style={styles.notificationButton}>
           <Ionicons name="notifications-outline" size={24} color={colors.white} />
         </TouchableOpacity>
       </View>
 
-      {/* Total Transfer */}
-      <View style={styles.balanceSection}>
-        <Text style={styles.balanceLabel}>Total Transfer</Text>
-
-        <Text style={styles.balanceAmount}>
-          {formatBalance(balance)}
-        </Text>
-      </View>
+      
 
       {/* Action Buttons */}
       <View style={styles.actions}>

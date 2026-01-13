@@ -5,6 +5,8 @@ import { WelcomeScreen } from '../screens/WelcomeScreen';
 import { LoginScreen } from '../screens/LoginScreen';
 import { SignupScreen } from '../screens/SignupScreen';
 import { OTPVerificationScreen } from '../screens/OTPVerificationScreen';
+import { SwapScreen } from '../screens/SwapScreen';
+import { SendScreen } from '../screens/SendScreen';
 import { BottomNavigation } from './BottomNavigationScreen';
 
 export type RootStackParamList = {
@@ -14,6 +16,8 @@ export type RootStackParamList = {
   Signup: undefined;
   OTPVerification: { email: string };
   App: undefined;
+  Swap: undefined;
+  Send: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -33,6 +37,8 @@ export const StackNavigation = () => {
       <Stack.Screen name="Signup" component={SignupScreen} />
       <Stack.Screen name="OTPVerification" component={OTPVerificationScreen} />
       <Stack.Screen name="App" component={BottomNavigation} />
+      <Stack.Screen name="Swap" component={SwapScreen} />
+      <Stack.Screen name="Send" component={SendScreen} />
     </Stack.Navigator>
   );
 };
